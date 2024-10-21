@@ -20,7 +20,7 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
 
 
   getSvgPath() {
-    return `/lib/svgs/${this.goal}.svg`;
+    return new URL(`./lib/svgs/${this.goal}.svg`, import.meta.url).href;
   }
 
   constructor() {
