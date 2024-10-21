@@ -20,23 +20,24 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
 
 
   getSvgPath() {
-    return `./public/svgs/${this.goal}.svg`;
+    return new URL(`./lib/svgs/${this.goal}.svg`, import.meta.url).href; //sources the svg
   }
 
   constructor() {
     super();
-    this.title = "";
+    this.goal = 1;
+    this.label = "";
+    this.colorOnly = false;
+    this.width = "254px";
+    this.height = "254px";
+    this.title = this.getGoalDescription();
     this.t = this.t || {};
     this.t = {
       ...this.t,
       title: "Title",
     };
 
-    this.goal = 1;
-    this.label = "";
-    this.colorOnly = false;
-    this.width = "254px";
-    this.height = "254px";
+    
 
     this.registerLocalization({
       context: this,
@@ -151,7 +152,12 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
     return descriptions[this.goal - 1] || 'Sustainable Development Goal';
   }
 
-  
+  updated(changedProperties) {
+    if (changedProperties.has('goal')) {
+      this.title = this.getGoalDescription();  // updates title when goal changes
+    }
+  }
+
   /**
    * haxProperties integration via file reference
    */
