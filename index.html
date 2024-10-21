@@ -28,6 +28,7 @@
       background-color: var(--ddd-accent-2);
       color: var(--ddd-primary-17);
     }
+    
   </style>
   <title>svg-component</title>
 </head>
@@ -36,8 +37,28 @@
   <div id="demo">
     <h1>svg-component</h1>
     <!-- this is going to do whatever the tag's defaults are -->
-    <h2>Default</h2>
+    <h2>Default SDG Goal (Goal 1)</h2>
     <svg-component></svg-component>
+
+    <h2>SDGwith Custom Label </h2>
+    <svg-component goal="3" label="Custom Alt Text - Goal 3"></svg-component>
+
+    <h2>Color-Only Mode (Goal 6)</h2>
+    <svg-component goal="6" colorOnly></svg-component>
+
+    <h2>Custom Sized SDG Goal (Goal 9, 150x150px)</h2>
+    <svg-component goal="9" width="150px" height="150px"></svg-component>
+
+    <h2>Random Goal Change</h2>
+    <svg-component id="randomGoalComponent" goal="1"></svg-component>
+    <button onclick="changeGoal()">Change Goal</button>
+    <script>
+      function changeGoal() {
+        const randomGoal = Math.floor(Math.random() * 17) + 1;
+        document.getElementById('randomGoalComponent').goal = randomGoal;
+      }
+    </script>
+
     <h2>Slot usage</h2>
     <svg-component data-accent="2" data-primary="17"><div>Sample slot content</div></svg-component>
     <h2>Property usage</h2>

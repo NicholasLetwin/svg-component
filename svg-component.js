@@ -18,6 +18,11 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
     return "svg-component";
   }
 
+
+  getSvgPath() {
+    return `/lib/svgs/goal-${this.goal}.svg`;
+  }
+
   constructor() {
     super();
     this.title = "";
@@ -26,12 +31,22 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
       ...this.t,
       title: "Title",
     };
+
+    this.goal = 1;
+    this.label = "";
+    this.colorOnly = false;
+    this.width = "254px";
+    this.height = "254px";
+
     this.registerLocalization({
       context: this,
       localesPath:
         new URL("./locales/svg-component.ar.json", import.meta.url).href +
         "/../",
       locales: ["ar", "es", "hi", "zh"],
+
+
+    
     });
   }
 
@@ -40,6 +55,11 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
     return {
       ...super.properties,
       title: { type: String },
+      goal: { type: String }, //svg goal number 1-17
+      label: { type: String }, // custom ALT text
+      colorOnly: { type: Boolean }, // bool to render color square only
+      width: { type: String }, // width of svg/square
+      height: { type: String }, //height
     };
   }
 
@@ -60,18 +80,68 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
       h3 span {
         font-size: var(--svg-component-label-font-size, var(--ddd-font-size-s));
       }
+      .color-square {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+:host {
+  --un-sdg-goal-1: #eb1c2c;
+  --un-sdg-goal-2: #d2a02a;
+  --un-sdg-goal-3: #2c9b48;
+  --un-sdg-goal-4: #c21f33;
+  --un-sdg-goal-5: #ef402a;
+  --un-sdg-goal-6: #00add8;
+  --un-sdg-goal-7: #fdb713;
+  --un-sdg-goal-8: #8f1737;
+  --un-sdg-goal-9: #f36d24;
+  --un-sdg-goal-10: #e01583;
+  --un-sdg-goal-11: #f99c24;
+  --un-sdg-goal-12: #cf8d2a;
+  --un-sdg-goal-13: #48773d;
+  --un-sdg-goal-14: #007dbb;
+  --un-sdg-goal-15: #3faf49;
+  --un-sdg-goal-16: #01558a;
+  --un-sdg-goal-17: #193667;
+}
     `];
   }
 
   // Lit render the HTML
   render() {
+    
     return html`
-<div class="wrapper">
+<div class="wrapper" style="width: ${this.width}; height: ${this.height};">
   <h3><span>${this.t.title}:</span> ${this.title}</h3>
   <slot></slot>
+  ${this.colorOnly
+        ? html`<div class="color-square" 
+                    style="background-color: var(--un-sdg-goal-${this.goal}); width: ${this.width}; height: ${this.height};">
+                </div>`
+        : html`<img src="${this.getSvgPath()}" 
+                    alt="${this.label || `Goal ${this.goal}: ${this.getGoalDescription()}`}"
+                    width="${this.width}" 
+                    height="${this.height}" 
+                    loading="lazy" 
+                    fetchpriority="low" />`}
 </div>`;
   }
 
+  getGoalDescription() {
+    const descriptions = [
+      'No Poverty', 'Zero Hunger', 'Good Health and Well-being', //  goal descriptions
+      'Quality Education', 'Gender Equality', 'Clean Water and Sanitation', 
+      'Affordable and Clean Energy', 'Decent Work and Economic Growth', 
+      'Industry, Innovation and Infrastructure', 'Reduced Inequality',
+      'Sustainable Cities and Communities', 'Responsible Consumption and Production',
+      'Climate Action', 'Life Below Water', 'Life on Land', 
+      'Peace, Justice and Strong Institutions', 'Partnerships for the Goals'
+    ];
+    return descriptions[this.goal - 1] || 'Sustainable Development Goal';
+  }
+
+  
   /**
    * haxProperties integration via file reference
    */
