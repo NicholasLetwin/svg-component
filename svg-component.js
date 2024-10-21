@@ -20,7 +20,7 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
 
 
   getSvgPath() {
-    return `/lib/svgs/goal-${this.goal}.svg`;
+    return `/lib/svgs/${this.goal}.svg`;
   }
 
   constructor() {
@@ -74,17 +74,27 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
         font-family: var(--ddd-font-navigation);
       }
       .wrapper {
-        margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
-      }
-      h3 span {
-        font-size: var(--svg-component-label-font-size, var(--ddd-font-size-s));
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: var(--ddd-spacing-8);
+        padding: var(--ddd-spacing-16);
+        width: 100%;
+        height: 100%;
       }
       .color-square {
   display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+
+  aspect-ratio: 1 / 1;
 }
+      h3 span {
+        font-size: var(--svg-component-label-font-size, var(--ddd-font-size-s));
+      }
+      
+     
 
 :host {
   --un-sdg-goal-1: #eb1c2c;
