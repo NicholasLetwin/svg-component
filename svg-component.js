@@ -18,21 +18,22 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
     return "svg-component";
   }
 
-
+  // method to get the file location for the SVG based on the goal number
   getSvgPath() {
-    return new URL(`./lib/svgs/${this.goal}.svg`, import.meta.url).href; //sources the svg
+    
+    return new URL(`./lib/svgs/${this.goal}.svg`, import.meta.url).href; 
   }
 
   
 
   constructor() {
     super();
-    this.goal = 1;
-    this.label = "";
-    this.colorOnly = false;
+    this.goal = 1; // default goal set to 1 (No poverty)
+    this.label = ""; 
+    this.colorOnly = false; // boolean that controls whether to show only the color square
     this.width = "254px";
     this.height = "254px";
-    this.title = this.getGoalDescription();
+    this.title = this.getGoalDescription(); // Sets title to goal description
     this.t = this.t || {};
     this.t = {
       ...this.t,
@@ -91,7 +92,7 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
   width: 100%;
   height: auto;
 
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1; // keeps color box in square 
 }
       h3 span {
         font-size: var(--svg-component-label-font-size, var(--ddd-font-size-s));
@@ -99,7 +100,7 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
       
      
 
-:host {
+:host { // Color codes for the different SDG goals
   --un-sdg-goal-1: #eb1c2c;
   --un-sdg-goal-2: #d2a02a;
   --un-sdg-goal-3: #2c9b48;
@@ -137,10 +138,11 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
                     width="${this.width}" 
                     height="${this.height}" 
                     loading="lazy" 
-                    fetchpriority="low" />`}
+                    fetchpriority="low" />`} <!-- renders SVG image if colorOnly is false -->
 </div>`;
   }
 
+  // returns the description for current SDG goal based on goal number
   getGoalDescription() {
     const descriptions = [
       'No Poverty', 'Zero Hunger', 'Good Health and Well-being', //  goal descriptions
@@ -151,11 +153,12 @@ export class svgComponent extends DDDSuper(I18NMixin(LitElement)) {
       'Climate Action', 'Life Below Water', 'Life on Land', 
       'Peace, Justice and Strong Institutions', 'Partnerships for the Goals'
     ];
-    return descriptions[this.goal - 1] || 'Sustainable Development Goal';
+    return descriptions[this.goal - 1] || 'Sustainable Development Goal';// returns description or fall back to previous
   }
 
+  // method for whenever properties change
   updated(changedProperties) {
-    if (changedProperties.has('goal')) {
+    if (changedProperties.has('goal')) { // checks if 'goal' property has changed
       this.title = this.getGoalDescription();  // updates title when goal changes
     }
   }
